@@ -303,7 +303,22 @@ loadDemoState();document.getElementById('roleSelect').value=role;document.getEle
   const history=[];
   let pending=false;
   function toggle(open){panel.classList.toggle('vnc-open',open);panel.setAttribute('aria-hidden',String(!open));launcher.setAttribute('aria-expanded',String(open));if(open)setTimeout(()=>input.focus(),80)}
-  function addMessage(text,kind){const el=document.createElement('div');el.className='vnc-ai-msg '+kind;el.textContent=text;messagesEl.appendChild(el);messagesEl.scrollTop=messagesEl.scrollHeight;return el}
+  
+function addMessage(text, kind, isMarkdown = false) {
+  const el = document.createElement('div');
+  el.className = 'vnc-ai-msg ' + kind;
+
+  if (isMarkdown && kind === 'bot') {
+    el.innerHTML = DOMPurify.sanitize(marked.parse(text));
+  } else {
+    el.textContent = text;
+  }
+
+  messagesEl.appendChild(el);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return el;
+}
+
   function setPending(value){pending=value;sendBtn.disabled=value;input.disabled=value;sendBtn.textContent=value?'…':'➤'}
   launcher.addEventListener('click',()=>toggle(!panel.classList.contains('vnc-open')));
   closeBtn.addEventListener('click',()=>toggle(false));
@@ -320,7 +335,18 @@ loadDemoState();document.getElementById('roleSelect').value=role;document.getEle
       const data=await response.json().catch(()=>({}));
       if(!response.ok)throw new Error(data.error||'Không thể kết nối tới dịch vụ AI.');
       if(!data.reply)throw new Error('AI chưa trả về nội dung. Vui lòng thử lại.');
-      typing.remove();addMessage(data.reply,'bot');history.push({role:'user',text:message},{role:'model',text:data.reply});if(history.length>12)history.splice(0,history.length-12);
+      typing.remove();
+
+addMessage(
+  DOMPurify.sanitize(marked.parse(data.reply)),
+  'bot',
+  true
+);
+
+history.push(
+  {role:'user',text:message},
+  {role:'model',text:data.reply}
+);if(history.length>12)history.splice(0,history.length-12);
     }catch(err){typing.remove();addMessage((err.message||'Có lỗi kết nối.')+' Nếu website đang chạy trên GitHub Pages, hãy kiểm tra URL backend trong VNC_AI_API_URL và cấu hình CORS.','bot error')}
     finally{setPending(false);input.focus()}
   });
