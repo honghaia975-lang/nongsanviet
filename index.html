@@ -36,30 +36,6 @@ button{border-radius:11px;transition:transform .16s,box-shadow .16s,filter .16s}
 
 
 .taskprefillgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.taskformfield{min-width:0}.taskformfield label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 6px}.taskformfield input,.taskformfield select,.taskformfield textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:9px;background:#f6f8f5;color:var(--ink);padding:10px;font:inherit;opacity:1}.taskformfield textarea{resize:vertical}.modal{max-height:88vh;overflow:auto}.modalactions{position:sticky;bottom:0;background:var(--surface);padding-top:12px}.modalactions button{width:100%}@media(max-width:640px){.taskprefillgrid{grid-template-columns:1fr}}
-</style><style>
-/* VietNong Connect AI assistant */
-#vnc-ai-launcher{position:fixed;right:24px;bottom:24px;z-index:10000;width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#21865f,#10583d);color:#fff;border:0;box-shadow:0 10px 28px #103c2b40;font-size:25px;display:grid;place-items:center}
-#vnc-ai-launcher:hover{transform:translateY(-2px);box-shadow:0 13px 30px #103c2b50}
-#vnc-ai-panel{position:fixed;right:24px;bottom:96px;z-index:10000;width:min(390px,calc(100vw - 28px));height:min(570px,calc(100vh - 125px));background:#fff;border:1px solid #dce9df;border-radius:20px;box-shadow:0 22px 70px #10271d35;display:none;overflow:hidden;flex-direction:column;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-#vnc-ai-panel.vnc-open{display:flex}
-.vnc-ai-head{display:flex;align-items:center;gap:11px;padding:15px 16px;background:linear-gradient(120deg,#103c2b,#176b4d);color:#fff}
-.vnc-ai-avatar{width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:#dff4e4;color:#176b4d;font-size:20px}
-.vnc-ai-headtext{flex:1;min-width:0}.vnc-ai-headtext strong{display:block;font-size:14px}.vnc-ai-headtext small{display:block;font-size:11px;color:#cce6d4;margin-top:2px}
-#vnc-ai-close{background:#ffffff1c;color:#fff;padding:6px 10px;border-radius:9px;font-size:18px}
-#vnc-ai-messages{padding:15px;flex:1;overflow-y:auto;background:#f7faf7;display:flex;flex-direction:column;gap:11px}
-.vnc-ai-msg{max-width:88%;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
-.vnc-ai-msg.bot{align-self:flex-start;background:#fff;border:1px solid #e1ebe3;color:#263c2f;border-top-left-radius:5px}
-.vnc-ai-msg.user{align-self:flex-end;background:#176b4d;color:#fff;border-top-right-radius:5px}
-.vnc-ai-msg.error{border-color:#f1c9c4;background:#fff5f3;color:#943e35}
-.vnc-ai-quick{display:flex;gap:7px;overflow-x:auto;padding:9px 12px;background:#fff;border-top:1px solid #edf2ee}
-.vnc-ai-quick button{flex-shrink:0;background:#edf7ef;color:#176b4d;border:1px solid #dcece0;padding:7px 9px;font-size:11px;border-radius:20px}
-.vnc-ai-compose{display:flex;align-items:flex-end;gap:8px;padding:11px 12px;background:#fff;border-top:1px solid #e8efe9}
-#vnc-ai-input{resize:none;min-height:42px;max-height:110px;padding:10px 12px;border-radius:13px;font-size:13px;line-height:1.4}
-#vnc-ai-send{height:42px;min-width:44px;padding:0 13px;border-radius:12px;font-size:18px}
-.vnc-ai-note{padding:0 13px 10px;background:#fff;color:#7b8b80;font-size:10px;line-height:1.4}
-.vnc-ai-typing{display:flex;gap:4px;align-items:center}.vnc-ai-typing i{width:5px;height:5px;border-radius:50%;background:#789483;animation:vncPulse 1s infinite alternate}.vnc-ai-typing i:nth-child(2){animation-delay:.2s}.vnc-ai-typing i:nth-child(3){animation-delay:.4s}
-@keyframes vncPulse{to{opacity:.25;transform:translateY(-2px)}}
-@media(max-width:560px){#vnc-ai-launcher{right:15px;bottom:15px;width:55px;height:55px}#vnc-ai-panel{right:8px;bottom:80px;width:calc(100vw - 16px);height:min(590px,calc(100vh - 100px));border-radius:18px}}
 </style></head>
 <body><div class="app">
 <aside class="side"><div class="brand"><div class="logo">🌱</div><div><b>VietNong Connect</b><small>Nông sản minh bạch · Kết nối bền vững</small></div></div>
@@ -235,65 +211,4 @@ else if(id===23){created={scope:vals[0],criterion:vals[1],threshold:vals[2],conc
 if(!summary)summary=`Đã lưu nghiệp vụ ${t.name}`;completedTasks[role]=completedTasks[role]||[];if(!completedTasks[role].includes(id))completedTasks[role].push(id);taskRecords.unshift({id,name:t.name,summary,time:new Date().toLocaleString('vi-VN'),data:created||vals});events.unshift(`Nghiệp vụ ${id}: ${summary}`);saveDemoState();closeModal();toast('Đã lưu: '+t.name);render();}
 
 loadDemoState();document.getElementById('roleSelect').value=role;document.getElementById('profileName').textContent=roles[role].name;document.getElementById('avatar').textContent=roles[role].avatar;render();
-</script>
-<!-- VietNong Connect AI Chatbot: API key stays on the backend, never in this HTML -->
-<button id="vnc-ai-launcher" type="button" aria-label="Mở trợ lý AI VietNong Connect" title="Trợ lý AI">✦</button>
-<section id="vnc-ai-panel" aria-label="Trợ lý AI VietNong Connect" aria-hidden="true">
-  <header class="vnc-ai-head">
-    <div class="vnc-ai-avatar">🌱</div>
-    <div class="vnc-ai-headtext"><strong>Trợ lý VietNong AI</strong><small>Hỗ trợ nông dân, HTX và người mua</small></div>
-    <button id="vnc-ai-close" type="button" aria-label="Đóng chat">×</button>
-  </header>
-  <div id="vnc-ai-messages" aria-live="polite">
-    <div class="vnc-ai-msg bot">Xin chào! Tôi là trợ lý AI của VietNong Connect. Bạn có thể hỏi về nông sản, OCOP/VietGAP, đăng bán sản phẩm hoặc cách sử dụng hệ thống. Tôi sẽ cố gắng hướng dẫn bạn.</div>
-  </div>
-  <div class="vnc-ai-quick">
-    <button type="button" data-prompt="Hướng dẫn nông dân đăng bán nông sản trên VietNong Connect.">Cách đăng bán</button>
-    <button type="button" data-prompt="OCOP và VietGAP khác nhau như thế nào?">OCOP / VietGAP</button>
-    <button type="button" data-prompt="Người mua nên kiểm tra những gì trước khi đặt nông sản?">Mẹo cho người mua</button>
-  </div>
-  <form class="vnc-ai-compose" id="vnc-ai-form">
-    <textarea id="vnc-ai-input" rows="1" maxlength="2000" placeholder="Nhập câu hỏi của bạn..." aria-label="Nhập câu hỏi"></textarea>
-    <button id="vnc-ai-send" type="submit" aria-label="Gửi tin nhắn">➤</button>
-  </form>
-  <div class="vnc-ai-note">Câu trả lời do AI tạo có thể chưa chính xác. Hãy xác minh giá, chứng nhận và thông tin giao dịch trước khi quyết định.</div>
-</section>
-<script>
-(function(){
-  // Khi triển khai: thay URL dưới đây bằng URL backend HTTPS đã deploy.
-  // Chạy local cùng backend thì để chuỗi rỗng để dùng /api/chat.
-  const VNC_AI_API_URL = '';
-  const launcher=document.getElementById('vnc-ai-launcher');
-  const panel=document.getElementById('vnc-ai-panel');
-  const closeBtn=document.getElementById('vnc-ai-close');
-  const messagesEl=document.getElementById('vnc-ai-messages');
-  const form=document.getElementById('vnc-ai-form');
-  const input=document.getElementById('vnc-ai-input');
-  const sendBtn=document.getElementById('vnc-ai-send');
-  const history=[];
-  let pending=false;
-  function toggle(open){panel.classList.toggle('vnc-open',open);panel.setAttribute('aria-hidden',String(!open));launcher.setAttribute('aria-expanded',String(open));if(open)setTimeout(()=>input.focus(),80)}
-  function addMessage(text,kind){const el=document.createElement('div');el.className='vnc-ai-msg '+kind;el.textContent=text;messagesEl.appendChild(el);messagesEl.scrollTop=messagesEl.scrollHeight;return el}
-  function setPending(value){pending=value;sendBtn.disabled=value;input.disabled=value;sendBtn.textContent=value?'…':'➤'}
-  launcher.addEventListener('click',()=>toggle(!panel.classList.contains('vnc-open')));
-  closeBtn.addEventListener('click',()=>toggle(false));
-  document.querySelectorAll('.vnc-ai-quick [data-prompt]').forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.prompt;form.requestSubmit()}));
-  input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
-  input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,110)+'px'});
-  form.addEventListener('submit',async e=>{
-    e.preventDefault();const message=input.value.trim();if(!message||pending)return;
-    addMessage(message,'user');input.value='';input.style.height='auto';setPending(true);
-    const typing=addMessage('Đang suy nghĩ…','bot');typing.innerHTML='<span class="vnc-ai-typing" aria-label="Đang trả lời"><i></i><i></i><i></i></span>';
-    try{
-      const endpoint=(VNC_AI_API_URL||'').replace(/\/$/,'')+'/api/chat';
-      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,history:history.slice(-12)})});
-      const data=await response.json().catch(()=>({}));
-      if(!response.ok)throw new Error(data.error||'Không thể kết nối tới dịch vụ AI.');
-      if(!data.reply)throw new Error('AI chưa trả về nội dung. Vui lòng thử lại.');
-      typing.remove();addMessage(data.reply,'bot');history.push({role:'user',text:message},{role:'model',text:data.reply});if(history.length>12)history.splice(0,history.length-12);
-    }catch(err){typing.remove();addMessage((err.message||'Có lỗi kết nối.')+' Nếu website đang chạy trên GitHub Pages, hãy kiểm tra URL backend trong VNC_AI_API_URL và cấu hình CORS.','bot error')}
-    finally{setPending(false);input.focus()}
-  });
-})();
-</script>
-</body></html>
+</script></body></html>
